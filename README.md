@@ -1,57 +1,70 @@
-# Sample Hardhat 3 Project (`mocha` and `ethers`)
+# CharityTrace
 
-This project showcases a Hardhat 3 project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+A locally tested smart-contract prototype for traceable charitable funding.
 
-To learn more about Hardhat 3, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3](https://hardhat.org/hardhat3-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+CharityTrace explores how rules for controlled token issuance, aid-application review, and donation escrow can be represented and tested on a blockchain. It is a **research and engineering prototype**, not a deployed charity platform or a real banking integration.
 
-## Project Overview
+## Project flow
 
-This example project includes:
-
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
-
-## Usage
-
-### Running Tests
-
-To run all the tests in the project, execute the following command:
-
-```shell
-npx hardhat test
+```mermaid
+flowchart LR
+    A["Simulated bank-deposit record<br/>Off-chain assumption"] --> B["CharityCoin<br/>Controlled CHC issuance"]
+    B --> C["AidApplicationReview<br/>Application, deposit and review"]
+    C -->|Approved| D["DonationTraceEscrow<br/>Donation held in escrow"]
+    D -->|Conditions satisfied| E["NGO allocation"]
+    E --> F["Beneficiary withdrawal"]
+    D -->|Refund conditions satisfied| G["Donor refund"]
+    C -->|Other review outcomes| H["Settlement under review rules"]
 ```
 
-You can also selectively run the Solidity or `mocha` tests:
+The diagram summarizes the intended workflow. The exact permissions and conditions are defined by the contracts and exercised by the tests; it does not imply that every step has been verified in a real-world charitable operation.
 
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
+## Core components
+
+| Component | Responsibility |
+| --- | --- |
+| `contracts/CharityCoin.sol` | Models controlled issuance and restrictions on ordinary token transfers. |
+| `contracts/AidApplicationReview.sol` | Manages aid applications, review participation, deposits, and settlement rules. |
+| `contracts/DonationTraceEscrow.sol` | Manages donation custody, allocation, withdrawal, and conditional refunds. |
+| `contracts/LocalReviewRandomness.sol` | Supplies randomness for local review tests; not intended as production-grade randomness. |
+
+The repository also contains `CharityVault.sol` and related tests. They are retained as part of the project's development and testing work; the end-to-end flow described above focuses on `CharityCoin`, `AidApplicationReview`, and `DonationTraceEscrow`.
+
+## Run locally
+
+**Requirements:** Node.js and npm. This project uses Hardhat 3, TypeScript, Mocha, and ethers v6.
+
+From the repository root:
+
+```powershell
+npm ci
+npx.cmd --no-install hardhat test --network hardhatMainnet
 ```
 
-### Make a deployment to Sepolia
+On systems where `npx` is directly available, use `npx --no-install hardhat test --network hardhatMainnet` instead.
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+The root `package.json` currently contains a placeholder `npm test` script. Use the Hardhat command above to run the test suite.
 
-To run the deployment to a local chain:
+## What the tests demonstrate
+This total includes five Hardhat template Counter tests (three Solidity and two Mocha); the remaining 49 tests cover project-specific behavior.
+The tests cover contract-level behavior and an integrated local scenario in `test/CharityCoinIntegration.ts`. The integrated scenario exercises controlled token issuance, application review, donation escrow, allocation and withdrawal, and a conditional refund path. Other tests examine selected authorization rules and failure cases.
 
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
+**Local test result:** 54 tests passed locally (6 Solidity and 48 Mocha) using `hardhatMainnet`.
+The total includes tests for the Hardhat template Counter contract and should not be interpreted as 54 project-specific tests.
+A passing local test suite shows that the implemented rules behave as expected in the tested scenarios. It does **not** establish that the contracts are secure for production use or that off-chain events are genuine.
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
+## Scope and limitations
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
+- Bank deposits are **simulated**; the project does not connect to a bank or verify real fiat deposits.
+- Blockchain addresses do not, by themselves, establish real-world identity or independence between participants.
+- On-chain records can show contract actions but cannot independently prove that funds were used as claimed in the physical world.
+- The local randomness provider is for testing, not production deployment.
+- Administrative permissions, operational controls, compliance requirements, and smart-contract security would require further review before any real deployment.
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+## Contribution
 
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
+The blockchain smart-contract implementation and testing were independently completed by Zhou Yinting.
 
-After setting the variable, you can run the deployment with the Sepolia network:
+## Status
 
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+Local prototype. No claim is made that this repository operates a live charitable service or handles real donations.
