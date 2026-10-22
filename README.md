@@ -73,13 +73,13 @@ CharityTrace runs its tests on a local Ethereum-compatible Hardhat network. It r
 - **Document hashes and their limits:** In a future system, comparing a supplied document with a previously recorded hash could help detect changes. This repository does not claim to register or verify medical-document hashes. Even a matching hash would not prove that the original document was genuine or that its contents were true.
 - **Network consensus:** Proof of Work (PoW) and Proof of Stake (PoS) are mechanisms by which blockchain networks can agree on transaction history. They are distinct from signatures, hashing, and contract-level permissions. CharityTrace does not implement its own PoW or PoS mechanism. Local Hardhat tests check selected contract behaviors, not the consensus security of a live public network.
 
-### Future concept: a charitable community
+### Future idea: a charitable community
 
-A possible future direction is a charitable community in which participants complete volunteer work, receive a reward after their contribution has been verified, and can use that reward to support further charitable activities. This could create a cycle in which contributions help generate resources for new contributions. It is a proposed contribution-reward model, **not a feature implemented or tested in the current prototype**.
+In the future, I would like to build on CharityTrace to create a charitable community. People could earn charity tokens by volunteering, then use those tokens to support others who need help. The idea is to let one good deed help make the next one possible.
 
-This idea may be described as inspired by "proof of work" in an informal sense, but it is **not blockchain PoW consensus**: volunteer time is not computational work used to validate blocks. Uploading a claim or document would not, by itself, prove that the work occurred. A future design would need an off-chain verification process, such as attestations from authorized organizations, before issuing rewards. It would also need safeguards against fabricated or duplicate claims, collusion, and multiple-identity abuse, while protecting volunteers' personal information.
+This is inspired by the idea of earning a reward for work, but it is **not blockchain Proof of Work (PoW)**. PoW uses computing power to secure a blockchain. Volunteer work happens in the real world, and uploading a photo or a record would not be enough to prove it happened. A future system would need trusted organizations to confirm the work before any tokens are issued, as well as ways to prevent false or duplicate claims.
 
-The current contracts' token-issuance and transfer restrictions should not be assumed to support this reward-and-reinvestment cycle without further design and testing. Any real implementation would also require review of token economics, governance, legal obligations, and the security of verification and key management.
+This is still an idea, not a feature of the current prototype. The existing contracts do not verify volunteer work or issue rewards for it. Building it would require new rules for issuing and using tokens, along with careful attention to privacy, security, and legal requirements.
 
 ### What the prototype can and cannot establish
 
