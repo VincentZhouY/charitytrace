@@ -57,6 +57,12 @@ A passing local test suite shows that the implemented rules behave as expected i
 
 CharityTrace records and enforces rules within a local smart-contract prototype. Its on-chain behavior should not be confused with independent verification of real-world charitable activities.
 
+### Cryptography and consensus
+
+- **Transaction signatures:** For an externally owned account, a valid transaction signature demonstrates authorization using the private key associated with that account. It does not prove the key holder's real-world identity. Contract permission checks still determine whether the account may perform a particular action.
+- **Cryptographic hashes:** A hash can help detect whether data has changed relative to a previously recorded value. This prototype does not claim to register or verify medical-document hashes. Even if that feature were added, a matching hash would not prove that the original document was authentic or truthful.
+- **Proof of Work and Proof of Stake:** PoW and PoS are blockchain-network consensus mechanisms, not methods for verifying applicant identities, bank deposits, medical documents, or the real-world use of donations. CharityTrace does not implement its own PoW or PoS mechanism. Its tests run on a local Hardhat network and do not demonstrate the security guarantees of a live public network.
+
 ### What the prototype can and cannot establish
 
 - **Authorization:** Contract permissions can restrict which accounts perform particular actions. A blockchain address alone does not prove the real-world identity or independence of its controller.
