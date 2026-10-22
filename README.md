@@ -59,9 +59,20 @@ CharityTrace records and enforces rules within a local smart-contract prototype.
 
 ### Cryptography and consensus
 
-- **Transaction signatures:** For an externally owned account, a valid transaction signature demonstrates authorization using the private key associated with that account. It does not prove the key holder's real-world identity. Contract permission checks still determine whether the account may perform a particular action.
-- **Cryptographic hashes:** A hash can help detect whether data has changed relative to a previously recorded value. This prototype does not claim to register or verify medical-document hashes. Even if that feature were added, a matching hash would not prove that the original document was authentic or truthful.
-- **Proof of Work and Proof of Stake:** PoW and PoS are blockchain-network consensus mechanisms, not methods for verifying applicant identities, bank deposits, medical documents, or the real-world use of donations. CharityTrace does not implement its own PoW or PoS mechanism. Its tests run on a local Hardhat network and do not demonstrate the security guarantees of a live public network.
+The prototype runs on an Ethereum-compatible local test network. It relies on the network's underlying account and transaction mechanisms rather than implementing a new cryptographic protocol.
+
+- **Public-key cryptography and signatures:** An externally owned account uses a private key to sign transactions. The corresponding public-key-based address identifies the account on the network, and the transaction signature allows the network to check that the transaction was authorized by the relevant key. This is a use of asymmetric cryptography for **authentication**, not encryption of donation or application data. A valid signature does not establish the signer's real-world identity or prove that the key has not been stolen. Smart-contract permission checks remain necessary.
+- **Hashing and data integrity:** Cryptographic hashes are used by Ethereum-compatible blockchain mechanisms to identify and link transaction and block data. In principle, a recorded document hash could later help detect whether a supplied document has changed. CharityTrace does not currently claim to register or verify medical-document hashes. A matching hash would establish neither the document's authenticity nor the truth of its contents.
+- **Privacy:** Digital signatures and hashes do not make publicly recorded information confidential. Sensitive identity or medical information should not be placed directly on a public blockchain. Any future system handling such records would need an appropriate off-chain storage, access-control, and encryption design; this repository does not claim to implement one.
+- **Network consensus:** Proof of Work (PoW) and Proof of Stake (PoS) are mechanisms used by some blockchain networks to agree on transaction history. CharityTrace does not implement either mechanism. Its local Hardhat tests verify selected contract behaviors, not the consensus security of a live public network.
+
+### Future concept: a charitable community
+
+A possible future direction is a community in which participants contribute verified volunteer time, receive a charitable token as a reward, and can contribute that token to further charitable activities. This would be a **contribution-reward model inspired by the idea of proving work**, not blockchain PoW consensus or proof that work happened merely because a claim was uploaded.
+
+Such a system would need a defined off-chain verification process: for example, an authorized organization could attest to a volunteer's activity, duration, and completion before any reward is issued. The contract could record the attestation and enforce reward rules, but it could not independently observe whether the volunteer work took place. Safeguards would be needed against fabricated records, duplicate claims, collusion, and rewards claimed through multiple identities, while protecting volunteers' personal information.
+
+A separate future design might use token staking to encourage responsible behavior by reviewers or attesting organizations. Staking tokens alone would **not** make the project a PoS blockchain: PoS consensus concerns how a network validates blocks. Both the volunteer-reward and staking ideas are proposals for future research, not features implemented or tested in the current prototype. Token issuance and use would also require economic, legal, and operational review before any real deployment.
 
 ### What the prototype can and cannot establish
 
