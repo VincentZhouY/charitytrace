@@ -99,11 +99,13 @@ The local tests cover selected contract behaviors, authorization rules, and fail
 
 ## Scope and limitations
 
-- Bank deposits are **simulated**; the project does not connect to a bank or verify real fiat deposits.
-- Blockchain addresses do not, by themselves, establish real-world identity or independence between participants.
-- On-chain records can show contract actions but cannot independently prove that funds were used as claimed in the physical world.
-- The local randomness provider is for testing, not production deployment.
-- Administrative permissions, operational controls, compliance requirements, and smart-contract security would require further review before any real deployment.
+- **Local wallet-based interactions:** Contract interactions are exercised through test accounts on a local Hardhat network. These accounts simulate the roles of participants and authorize on-chain transactions; they do not represent verified real-world users or a production wallet infrastructure.
+- **Simulated fiat activity:** Bank-deposit records are modeled as off-chain assumptions. The prototype does not connect to a bank, process fiat payments, or independently verify that a real deposit occurred.
+- **Identity and participant independence:** A blockchain address identifies an account, not a verified individual or organization. Separate addresses do not, by themselves, establish that participants are independent.
+- **Limits of on-chain traceability:** On-chain records can show contract interactions and the movement of tokens within the prototype. They cannot independently establish how funds or resources were used in the physical world.
+- **Test-only randomness:** The local randomness provider supports testing and is not intended for production deployment.
+- **Production readiness:** Administrative permissions, wallet and key management, operational controls, privacy, compliance, off-chain verification, and smart-contract security would all require further design and review before a real deployment.
+
 
 ## Contribution
 
