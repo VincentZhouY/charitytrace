@@ -109,7 +109,7 @@ The local tests cover selected contract behaviors, authorization rules, and fail
 
 ## Contribution
 
-The blockchain smart-contract implementation and testing were independently completed by Zhou Yinting.
+The blockchain smart-contract implementation and testing were independently completed by **Zhou Yinting.**
 
 ## Status
 
